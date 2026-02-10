@@ -1,5 +1,5 @@
-id,name,leadership,thinking,empathy,adaptability
-hero,勇者,1,1,1,1
-swordsman,剣士,2,-1,0,1
-mage,魔法使い,-1,2,0,1
-sage,賢者,0,1,1,2
+id,name,leadership,thinking,empathy,adaptability,description
+hero,勇者,1,1,1,1,バランス型。前にも出られ、周囲とも協力できる。
+swordsman,剣士,2,-1,0,1,迷うより先に動くタイプ。行動力と突破力で状況を切り開く。
+mage,魔法使い,-1,2,0,1,考えてから動くタイプ。仕組みや理屈を理解して、最適な一手を探す。
+sage,賢者,0,1,1,2,状況対応型。変化を読み、全体を見て調整する。

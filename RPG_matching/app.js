@@ -13,9 +13,12 @@ async function loadCandidatesFromCSV() {
   const lines = text.trim().split(/\r?\n/);
   const headers = lines[0].split(",").map(h => h.trim());
 
+  console.log(headers);
+
+
   const result = [];
 
-  for (let i = 1; i < lines.length; i++) {
+ /* for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(",").map(v => v.trim());
     const obj = { name: values[1], scores: {} };
 
@@ -25,6 +28,25 @@ async function loadCandidatesFromCSV() {
 
     result.push(obj);
   }
+
+  */
+
+  for (let i = 1; i < lines.length; i++) {
+  const values = lines[i].split(",").map(v => v.trim());
+  const obj = {
+    id: values[headers.indexOf("id")],
+    name: values[headers.indexOf("name")],
+    description: values[headers.indexOf("description")],
+    scores: {}
+  };
+
+  AXES.forEach(axis => {
+    const idx = headers.indexOf(axis);
+    obj.scores[axis] = Number(values[idx]);
+  });
+
+  result.push(obj);
+}
 
   return result;
 }
@@ -61,17 +83,28 @@ document.getElementById("surveyForm").addEventListener("submit", async function 
     });
     const maxDiff = AXES.length * 4;
     const matchRate = Math.round((1 - diff / maxDiff) * 100);
-    return { name: c.name, rate: matchRate };
+    return { name: c.name, rate: matchRate, description: c.description };
   });
 
   results.sort((a, b) => b.rate - a.rate);
 
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
-
+/*
   results.forEach(r => {
     const p = document.createElement("p");
-    p.textContent = `${r.name}：一致度 ${r.rate}%`;
+    p.textContent = `${r.name}：一致度 ${r.rate}% : ${r.description}`;
     resultDiv.appendChild(p);
   });
+  */
+
+  results.forEach(r => {
+  const p = document.createElement("p");
+  p.innerHTML = `
+    <strong>${r.name}</strong>：一致度 ${r.rate}%<br>
+    <span class="desc">　　${r.description ?? ""}</span>
+  `;
+  resultDiv.appendChild(p);
+});
+
 });
