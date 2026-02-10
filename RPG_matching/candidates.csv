@@ -1,0 +1,5 @@
+id,name,leadership,thinking,empathy,adaptability
+hero,勇者,1,1,1,1
+swordsman,剣士,2,-1,0,1
+mage,魔法使い,-1,2,0,1
+sage,賢者,0,1,1,2

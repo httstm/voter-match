@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RPG職業適性診断（試作）</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div class="hero__badge">BETA</div>
+      <h1 class="hero__title">RPG職業適性診断</h1>
+      <p class="hero__subtitle">
+        4つの質問に答えると、あなたの職業タイプ（勇者／剣士／魔法使い／賢者）が出ます。
+      </p>
+    </header>
+
+    <section class="card">
+      <h2 class="card__title">質問に答える</h2>
+
+      <form id="surveyForm" class="survey">
+        <!-- Q1 -->
+        <fieldset class="q">
+          <legend class="q__legend">Q1：主導性</legend>
+          <p class="q__desc">グループで何かを始めるとき、あなたは？</p>
+
+          <div class="scale">
+            <label class="opt">
+              <input type="radio" name="leadership" value="-2" required />
+              <span>前に出るのは苦手</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="leadership" value="0" />
+              <span>状況次第</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="leadership" value="2" />
+              <span>先頭に立って引っ張りたい</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Q2 -->
+        <fieldset class="q">
+          <legend class="q__legend">Q2：思考性</legend>
+          <p class="q__desc">問題が起きたとき、まずやるのは？</p>
+
+          <div class="scale">
+            <label class="opt">
+              <input type="radio" name="thinking" value="-2" required />
+              <span>考えるより行動が先</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="thinking" value="0" />
+              <span>ケースバイケース</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="thinking" value="2" />
+              <span>立ち止まって全体を考える</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Q3 -->
+        <fieldset class="q">
+          <legend class="q__legend">Q3：感情感度</legend>
+          <p class="q__desc">周囲の人の気持ちについて、あなたは？</p>
+
+          <div class="scale">
+            <label class="opt">
+              <input type="radio" name="empathy" value="-2" required />
+              <span>ほとんど気にしない</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="empathy" value="0" />
+              <span>どちらとも言えない</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="empathy" value="2" />
+              <span>かなり気になる</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Q4 -->
+        <fieldset class="q">
+          <legend class="q__legend">Q4：変化耐性</legend>
+          <p class="q__desc">予定や状況が急に変わったとき？</p>
+
+          <div class="scale">
+            <label class="opt">
+              <input type="radio" name="adaptability" value="-2" required />
+              <span>かなりストレスになる</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="adaptability" value="0" />
+              <span>どちらとも言えない</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="adaptability" value="2" />
+              <span>むしろワクワクする</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit" class="btn btn--primary">診断する</button>
+          <button type="reset" class="btn btn--ghost" id="resetBtn">リセット</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card card--result" aria-live="polite">
+      <div class="resultHeader">
+        <h2 class="card__title">結果</h2>
+        <p class="muted">※試作（BETA）。入力は保存しません。</p>
+      </div>
+
+      <!-- app.js がここに結果を描画してもOK -->
+      <div id="result" class="result">
+        <p class="result__placeholder">診断すると、ここに結果が出ます。</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="muted">
+        ※個人制作の試作ツールです。実在の人物・団体とは関係ありません。
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
