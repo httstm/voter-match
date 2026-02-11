@@ -1,10 +1,4 @@
-const AXES = ["leadership","thinking","empathy","adaptability"];
-const jobIcons = {
-  hero: "⭐",
-  swordsman: "🗡",
-  mage: "🧙",
-  sage: "🧠"
-};
+const AXES = ["nuclear", "tax", "marriage", "yasukuni", "osaka"];
 
 
 // TODO: CSV読み込みに変更する
@@ -19,14 +13,11 @@ async function loadCandidatesFromCSV() {
   const lines = text.trim().split(/\r?\n/);
   const headers = lines[0].split(",").map(h => h.trim());
 
-  console.log(headers);
-
-
   const result = [];
 
- /* for (let i = 1; i < lines.length; i++) {
+  for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(",").map(v => v.trim());
-    const obj = { name: values[1], scores: {} };
+    const obj = { name: values[0], scores: {} };
 
     for (let j = 1; j < headers.length; j++) {
       obj.scores[headers[j]] = Number(values[j]);
@@ -34,25 +25,6 @@ async function loadCandidatesFromCSV() {
 
     result.push(obj);
   }
-
-  */
-
-  for (let i = 1; i < lines.length; i++) {
-  const values = lines[i].split(",").map(v => v.trim());
-  const obj = {
-    id: values[headers.indexOf("id")],
-    name: values[headers.indexOf("name")],
-    description: values[headers.indexOf("description")],
-    scores: {}
-  };
-
-  AXES.forEach(axis => {
-    const idx = headers.indexOf(axis);
-    obj.scores[axis] = Number(values[idx]);
-  });
-
-  result.push(obj);
-}
 
   return result;
 }
@@ -89,28 +61,17 @@ document.getElementById("surveyForm").addEventListener("submit", async function 
     });
     const maxDiff = AXES.length * 4;
     const matchRate = Math.round((1 - diff / maxDiff) * 100);
-    return { id: c.id, name: c.name, rate: matchRate, description: c.description };
+    return { name: c.name, rate: matchRate };
   });
 
   results.sort((a, b) => b.rate - a.rate);
 
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
-/*
+
   results.forEach(r => {
     const p = document.createElement("p");
-    p.textContent = `${r.name}：一致度 ${r.rate}% : ${r.description}`;
+    p.textContent = `${r.name}：一致度 ${r.rate}%`;
     resultDiv.appendChild(p);
   });
-  */
-
-  results.forEach(r => {
-  const p = document.createElement("p");
-  p.innerHTML = `
-    ${jobIcons[r.id]}<strong>${r.name}</strong>：一致度 ${r.rate}%<br>
-    <span class="desc">　　${r.description ?? ""}</span>
-  `;
-  resultDiv.appendChild(p);
-});
-
 });
