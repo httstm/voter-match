@@ -24,19 +24,6 @@ async function loadCandidatesFromCSV() {
 
   const result = [];
 
- /* for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map(v => v.trim());
-    const obj = { name: values[1], scores: {} };
-
-    for (let j = 1; j < headers.length; j++) {
-      obj.scores[headers[j]] = Number(values[j]);
-    }
-
-    result.push(obj);
-  }
-
-  */
-
   for (let i = 1; i < lines.length; i++) {
   const values = lines[i].split(",").map(v => v.trim());
   const obj = {
@@ -45,7 +32,7 @@ async function loadCandidatesFromCSV() {
     description: values[headers.indexOf("description")],
     scores: {}
   };
-
+  // スコアの取り出し
   AXES.forEach(axis => {
     const idx = headers.indexOf(axis);
     obj.scores[axis] = Number(values[idx]);
@@ -82,27 +69,31 @@ document.getElementById("surveyForm").addEventListener("submit", async function 
     user[axis] = Number(formData.get(axis));
   });
 
-  const results = candidates.map(c => {
-    let diff = 0;
-    AXES.forEach(axis => {
-      diff += Math.abs(user[axis] - c.scores[axis]);
-    });
-    const maxDiff = AXES.length * 4;
-    const matchRate = Math.round((1 - diff / maxDiff) * 100);
-    return { id: c.id, name: c.name, rate: matchRate, description: c.description };
+  // スコアの計算
+ const results = candidates.map(c => {
+  let diff = 0;
+
+  AXES.forEach(axis => {
+    const d = user[axis] - c.scores[axis];
+    diff += d * d;                 // ← ここを変更（絶対値→二乗）
   });
+
+  const maxDiff = AXES.length * 16;  // ← 4^2 = 16 に変更
+  const matchRate = Math.round((1 - diff / maxDiff) * 100);
+
+  return {
+    id: c.id,
+    name: c.name,
+    rate: matchRate,
+    description: c.description
+  };
+});
+
 
   results.sort((a, b) => b.rate - a.rate);
 
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
-/*
-  results.forEach(r => {
-    const p = document.createElement("p");
-    p.textContent = `${r.name}：一致度 ${r.rate}% : ${r.description}`;
-    resultDiv.appendChild(p);
-  });
-  */
 
   results.forEach(r => {
   const p = document.createElement("p");
@@ -112,5 +103,12 @@ document.getElementById("surveyForm").addEventListener("submit", async function 
   `;
   resultDiv.appendChild(p);
 });
+
+// ---- 計算方式の説明表示 ----
+const note = document.getElementById("calcNote");
+if (note) {
+  note.textContent =
+    "※一致度は、各項目の差をもとに算出しています。差が大きい項目は一致度に強く影響します。";
+}
 
 });
